@@ -6,14 +6,17 @@
 :END:
 
 #+title: Doom Emacs configuration
-#+author: Diego Zamboni
-#+email: diego@zzamboni.org
+#+author: Dave Abrahams
+#+email: dave@boostpro.com
 
 [[file:splash/doom-emacs-bw-light.svg]]
 
 This is my Doom Emacs configuration. From this org file, all the necessary Doom Emacs config files are generated.
 
+Based heavily on the work of Diego Zamboni <diego@zzamboni.org>
+
 This file is written in [[https://leanpub.com/lit-config][literate programming style]] using [[https://orgmode.org/][org-mode]]. See [[file:init.el][init.el]], [[file:packages.el][packages.el]] and [[file:config.el][config.el]] for the generated files. You can see this in a nicer format on my blog post [[https://zzamboni.org/post/my-doom-emacs-configuration-with-commentary/][My Doom Emacs configuration, with commentary]].
+
 
 * Table of Contents :TOC_3:noexport:
 - [[#references][References]]
