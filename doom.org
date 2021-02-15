@@ -464,10 +464,13 @@ In my previous configuration, I used to automatically restore the previous sessi
 ;;(add-hook 'window-setup-hook #'doom/quickload-session)
 #+end_src
 
-Maximize the window upon startup.
+Maximize the window upon startup, and no toolbars!.
 
 #+begin_src emacs-lisp
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(modify-frame-parameters
+  nil (list (cons 'tool-bar-lines 0)))
+;;(if (not tool-bar-mode) (tool-bar-mode t))
 #+end_src
 
 Truncate lines in =ivy= childframes. [[https://discord.com/channels/406534637242810369/484105925733646336/770756709857755187][Thanks Henrik]]! (disabled for now)

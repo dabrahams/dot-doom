@@ -96,6 +96,9 @@
 ;;(add-hook 'window-setup-hook #'doom/quickload-session)
 
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
+(modify-frame-parameters
+  nil (list (cons 'tool-bar-lines 0)))
+;;(if (not tool-bar-mode) (tool-bar-mode t))
 
 (map! "C-x b"   #'counsel-buffer-or-recentf
       "C-x C-b" #'counsel-switch-buffer)
