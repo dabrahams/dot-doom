@@ -57,8 +57,8 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 
-(setq user-full-name "Diego Zamboni"
-      user-mail-address "diego@zzamboni.org")
+(setq user-full-name "Dave Abrahams"
+      user-mail-address "dabrahams@google.com")
 
 (cond (IS-MAC
        (setq mac-command-modifier      'meta
