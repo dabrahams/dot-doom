@@ -18,52 +18,6 @@ Based heavily on the work of Diego Zamboni <diego@zzamboni.org>
 This file is written in [[https://leanpub.com/lit-config][literate programming style]] using [[https://orgmode.org/][org-mode]]. See [[file:init.el][init.el]], [[file:packages.el][packages.el]] and [[file:config.el][config.el]] for the generated files. You can see this in a nicer format on my blog post [[https://zzamboni.org/post/my-doom-emacs-configuration-with-commentary/][My Doom Emacs configuration, with commentary]].
 
 
-* Table of Contents :TOC_3:noexport:
-- [[#references][References]]
-- [[#doom-config-file-overview][Doom config file overview]]
-  - [[#config-file-headers][Config file headers]]
-  - [[#customized-variables][Customized variables]]
-- [[#doom-modules][Doom modules]]
-- [[#general-configuration][General configuration]]
-  - [[#visual-session-and-window-settings][Visual, session and window settings]]
-  - [[#key-bindings][Key bindings]]
-    - [[#miscellaneous-keybindings][Miscellaneous keybindings]]
-    - [[#emulating-vis--key][Emulating vi's =%= key]]
-- [[#org-mode][Org mode]]
-  - [[#general-org-configuration][General Org Configuration]]
-  - [[#org-visual-settings][Org visual settings]]
-  - [[#capturing-and-note-taking][Capturing and note taking]]
-  - [[#capturing-images][Capturing images]]
-  - [[#capturing-links][Capturing links]]
-    - [[#capturing-and-creating-internal-org-links][Capturing and creating internal Org links]]
-    - [[#capturing-links-to-external-applications][Capturing links to external applications]]
-  - [[#tasks-and-agenda][Tasks and agenda]]
-  - [[#gtd][GTD]]
-    - [[#capture-templates][Capture templates]]
-  - [[#exporting-a-curriculum-vitae][Exporting a Curriculum Vitae]]
-  - [[#publishing-to-leanpub][Publishing to LeanPub]]
-  - [[#blogging-with-hugo][Blogging with Hugo]]
-  - [[#code-for-org-mode-macros][Code for org-mode macros]]
-  - [[#reformatting-an-org-buffer][Reformatting an Org buffer]]
-  - [[#avoiding-non-org-mode-files][Avoiding non-Org mode files]]
-  - [[#revealjs-presentations][Reveal.js presentations]]
-  - [[#other-exporters][Other exporters]]
-  - [[#programming-org][Programming Org]]
-- [[#coding][Coding]]
-- [[#other-tools][Other tools]]
-- [[#experiments][Experiments]]
-
-* References
-
-Emacs config is an art, and I have learned a lot by reading through other people's config files, and from many other resources. These are some of the best ones (several are also written in org mode). You will find snippets from all of these (and possibly others) throughout my config.
-
-- [[http://pages.sachachua.com/.emacs.d/Sacha.html][Sacha Chua's Emacs Configuration]]
-- [[https://github.com/daedreth/UncleDavesEmacs#user-content-ido-and-why-i-started-using-helm][Uncle Dave's Emacs config]]
-- [[https://github.com/PythonNut/emacs-config][PythonNut's Emacs config]]
-- [[https://www.masteringemacs.org/][Mastering Emacs]]
-- [[https://tecosaur.github.io/emacs-config/config.html][Tecosaur's Emacs config]]
-
-Note: a lot of manual configuration has been rendered moot by using Emacs Doom, which aggregates a well-maintained and organized collection of common configuration settings for performance optimization, package management, commonly used packages (e.g. Org) and much more.
 * Doom config file overview
 
 Doom Emacs uses three config files:
