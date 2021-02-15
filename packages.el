@@ -90,13 +90,7 @@
 
 (package! org-ml)
 
-(package! org-auto-tangle
-  :recipe (:local-repo "~/Dropbox/Personal/devel/emacs/org-auto-tangle"))
-
-(package! elvish-mode)
-(package! ob-elvish)
-
-(package! ob-cfengine3)
+(package! org-auto-tangle)
 
 (package! graphviz-dot-mode)
 

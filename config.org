@@ -393,8 +393,8 @@ here as-is for now, as it is quite well structured and clear.
 My user information.
 
 #+begin_src emacs-lisp
-(setq user-full-name "Diego Zamboni"
-      user-mail-address "diego@zzamboni.org")
+(setq user-full-name "Dave Abrahams"
+  user-mail-address "dabrahams@google.com")
 #+end_src
 
 Change the Mac modifiers to my liking
@@ -404,12 +404,6 @@ Change the Mac modifiers to my liking
        (setq mac-command-modifier      'meta
              mac-option-modifier       'alt
              mac-right-option-modifier 'alt)))
-#+end_src
-
-When at the beginning of the line, make =Ctrl-K= remove the whole line, instead of just emptying it.
-
-#+begin_src emacs-lisp
-(setq kill-whole-line t)
 #+end_src
 
 Disable line numbers.
@@ -462,7 +456,8 @@ Allow mixed fonts in a buffer. This is particularly useful for Org mode, so I ca
 (setq mixed-pitch-variable-pitch-cursor nil)
 #+end_src
 
-Set the theme to use. I like the [[https://github.com/nashamri/spacemacs-theme][Spacemacs-Light]], which does not come with Doom, so we need to install it from =package.el=:
+Set the theme to use. I like the [[https://github.com/nashamri/spacemacs-theme][Spacemacs-Light]], which does not come with Doom,
+so we need to install it from =package.el=:
 
 #+begin_src emacs-lisp :tangle packages.el
 (package! spacemacs-theme)
@@ -476,7 +471,11 @@ And then from =config.el= we specify the theme to use.
 ;;(setq doom-theme 'doom-solarized-light)
 #+end_src
 
-In my previous configuration, I used to automatically restore the previous session upon startup. Doom Emacs starts up so fast that it does not feel right to do it automatically. In any case, from the Doom dashboard I can simply press Enter to invoke the first item, which is "Reload Last Session". So this code is commented out now.
+In my previous configuration, I used to automatically restore the previous
+session upon startup. Doom Emacs starts up so fast that it does not feel right
+to do it automatically. In any case, from the Doom dashboard I can simply press
+Enter to invoke the first item, which is "Reload Last Session". So this code is
+commented out now.
 
 #+begin_src emacs-lisp
 ;;(add-hook 'window-setup-hook #'doom/quickload-session)
@@ -488,7 +487,6 @@ Maximize the window upon startup, and no toolbars!.
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (modify-frame-parameters
   nil (list (cons 'tool-bar-lines 0)))
-;;(if (not tool-bar-mode) (tool-bar-mode t))
 #+end_src
 
 Truncate lines in =ivy= childframes. [[https://discord.com/channels/406534637242810369/484105925733646336/770756709857755187][Thanks Henrik]]! (disabled for now)
@@ -608,72 +606,7 @@ Map a keybindings for =counsel-outline=, which allows easily navigating document
 (map! "M-g o" #'counsel-outline)
 #+end_src
 
-*** Emulating vi's =%= key
-
-One of the few things I missed in Emacs from vi was the =%= key, which jumps to the parenthesis, bracket or brace which matches the one below the cursor. This function implements this functionality, bound to the same key. Inspired by [[http://www.emacswiki.org/emacs/NavigatingParentheses][NavigatingParentheses]], but modified to use =smartparens= instead of the default commands, and to work on brackets and braces.
-
-#+begin_src emacs-lisp
-(after! smartparens
-  (defun zz/goto-match-paren (arg)
-    "Go to the matching paren/bracket, otherwise (or if ARG is not
-    nil) insert %.  vi style of % jumping to matching brace."
-    (interactive "p")
-    (if (not (memq last-command '(set-mark
-                                  cua-set-mark
-                                  zz/goto-match-paren
-                                  down-list
-                                  up-list
-                                  end-of-defun
-                                  beginning-of-defun
-                                  backward-sexp
-                                  forward-sexp
-                                  backward-up-list
-                                  forward-paragraph
-                                  backward-paragraph
-                                  end-of-buffer
-                                  beginning-of-buffer
-                                  backward-word
-                                  forward-word
-                                  mwheel-scroll
-                                  backward-word
-                                  forward-word
-                                  mouse-start-secondary
-                                  mouse-yank-secondary
-                                  mouse-secondary-save-then-kill
-                                  move-end-of-line
-                                  move-beginning-of-line
-                                  backward-char
-                                  forward-char
-                                  scroll-up
-                                  scroll-down
-                                  scroll-left
-                                  scroll-right
-                                  mouse-set-point
-                                  next-buffer
-                                  previous-buffer
-                                  previous-line
-                                  next-line
-                                  back-to-indentation
-                                  doom/backward-to-bol-or-indent
-                                  doom/forward-to-last-non-comment-or-eol
-                                  )))
-        (self-insert-command (or arg 1))
-      (cond ((looking-at "\\s\(") (sp-forward-sexp) (backward-char 1))
-            ((looking-at "\\s\)") (forward-char 1) (sp-backward-sexp))
-            (t (self-insert-command (or arg 1))))))
-  (map! "%" 'zz/goto-match-paren))
-#+end_src
-
 * Org mode
-
-[[http://orgmode.org/][Org mode]] has become my primary tool for writing, blogging, coding, presentations and more. I am duly impressed. I have been a fan of the idea of [[https://en.wikipedia.org/wiki/Literate_programming][literate programming]] for many years, and I have tried other tools before (most notably [[https://www.cs.tufts.edu/~nr/noweb/][noweb]], which I used during grad school for homeworks and projects), but Org is the first tool I have encountered which makes it practical. Here are some of the resources I have found useful in learning it:
-
-- Howard Abrams' [[http://www.howardism.org/Technical/Emacs/literate-programming-tutorial.html][Introduction to Literate Programming]], which got me jumpstarted into writing code documented with org-mode.
-- Nick Anderson's [[https://github.com/nickanderson/Level-up-your-notes-with-Org][Level up your notes with Org]], which contains many useful tips and configuration tricks. Nick's recommendation also got me to start looking into Org-mode in the first place!
-- Sacha Chua's [[http://sachachua.com/blog/2014/01/tips-learning-org-mode-emacs/][Some tips for learning Org Mode for Emacs]], her [[http://pages.sachachua.com/.emacs.d/Sacha.html][Emacs configuration]] and many of her [[http://sachachua.com/blog/category/emacs/][other articles]].
-- Rainer König's [[https://www.youtube.com/playlist?list=PLVtKhBrRV_ZkPnBtt_TD1Cs9PJlU0IIdE][OrgMode Tutorial]] video series.
-
-Doom's Org module provides a lot of sane configuration settings, so I don't have to configure so much as in my [[https://github.com/zzamboni/dot-emacs/][previous hand-crafted config]].
 
 ** General Org Configuration
 
@@ -689,10 +622,10 @@ Hide Org markup indicators.
 (after! org (setq org-hide-emphasis-markers t))
 #+end_src
 
-Insert Org headings at point, not after the current subtree (this is enabled by default by Doom).
+Insert Org headings after the current subtree
 
 #+begin_src emacs-lisp
-(after! org (setq org-insert-heading-respect-content nil))
+(after! org (setq org-insert-heading-respect-content t))
 #+end_src
 
 Enable logging of done tasks, and log stuff into the LOGBOOK drawer by default
@@ -1273,7 +1206,7 @@ The =zz/refresh-reveal-prez= function makes use of the above to perform the pres
          (title (cadar (org-collect-keywords '("TITLE"))))
          ;; Command to reload the browser and move to the correct slide
          (cmd (concat
-"osascript -e \"tell application \\\"Brave\\\" to repeat with W in windows
+"osascript -e \"tell application \\\"Google Chrome\\\" to repeat with W in windows
 set i to 0
 repeat with T in (tabs in W)
 set i to i + 1
@@ -1330,8 +1263,7 @@ Trying out [[https://github.com/ndwarshuis/org-ml][org-ml]] for easier access to
 Tangle-on-save has revolutionized my literate programming workflow. It automatically runs =org-babel-tangle= upon saving any org-mode buffer, which means the resulting files will be automatically kept up to date. For a while I did this by manually adding =org-babel-tangle= to the =after-save= hook in Org mode, but now I use the [[https://github.com/yilkalargaw/org-auto-tangle][org-auto-tangle]] package, which does this asynchronously and selectively for each Org file where it is desired.
 
 #+begin_src emacs-lisp :tangle packages.el
-(package! org-auto-tangle
-  :recipe (:local-repo "~/Dropbox/Personal/devel/emacs/org-auto-tangle"))
+(package! org-auto-tangle)
 #+end_src
 #+begin_src emacs-lisp
 (use-package! org-auto-tangle
@@ -1341,7 +1273,11 @@ Tangle-on-save has revolutionized my literate programming workflow. It automatic
   (setq org-auto-tangle-default t))
 #+end_src
 
-Some useful settings for LISP coding - =smartparens-strict-mode= to enforce parenthesis to match. I map =M-(= to enclose the next expression as in =paredit= using a custom function. Prefix argument can be used to indicate how many expressions to enclose instead of just 1. E.g. =C-u 3 M-(= will enclose the next 3 sexps.
+Some useful settings for LISP coding - =smartparens-strict-mode= to enforce
+parenthesis to match. I map =M-(= to enclose the next expression as in =paredit=
+using a custom function. Prefix argument can be used to indicate how many
+expressions to enclose instead of just 1. E.g. =C-u 3 M-(= will enclose the next
+3 sexps.
 
 #+begin_src emacs-lisp
 (defun zz/sp-enclose-next-sexp (num)
@@ -1374,34 +1310,12 @@ Adding keybindings for some useful functions:
 
 Some other languages I use.
 
-- [[http://elvish.io/][Elvish shell]], with support for org-babel.
-  #+begin_src emacs-lisp :tangle packages.el
-(package! elvish-mode)
-(package! ob-elvish)
-  #+end_src
-
-- [[http://cfengine.com/][CFEngine]] policy files. The =cfengine3-mode= package is included with Emacs, but I also install org-babel support.
-  #+begin_src emacs-lisp :tangle packages.el
-(package! ob-cfengine3)
-  #+end_src
-  #+begin_src emacs-lisp
-(use-package! cfengine
-  :defer t
-  :commands cfengine3-mode
-  :mode ("\\.cf\\'" . cfengine3-mode))
-  #+end_src
-
 - [[https://graphviz.org/][Graphviz]] for graph generation.
   #+begin_src emacs-lisp :tangle packages.el
 (package! graphviz-dot-mode)
   #+end_src
   #+begin_src emacs-lisp
 (use-package! graphviz-dot-mode)
-  #+end_src
-
-- I am learning [[http://www.gigamonkeys.com/book/][Common LISP]], which is well supported through the =common-lisp= Doom module, but I need to configure this in the =~/.slynkrc= file for I/O in the Sly REPL to work fine ([[https://github.com/joaotavora/sly/issues/347#issuecomment-717065056][source]]).
-  #+begin_src emacs-lisp :tangle ~/.slynkrc
-(setf slynk:*use-dedicated-output-stream* nil)
   #+end_src
 
 - [[https://github.com/purcell/package-lint][package-lint]] for checking MELPA packages.
@@ -1433,7 +1347,9 @@ Some other languages I use.
           ("Path" 99 magit-repolist-column-path nil))))
   #+end_src
 
-- I prefer to use the GPG graphical PIN entry utility. This is achieved by setting =epg-pinentry-mode= (=epa-pinentry-mode= before Emacs 27) to =nil= instead of the default ='loopback=.
+- I prefer to use the GPG graphical PIN entry utility. This is achieved by
+  setting =epg-pinentry-mode= (=epa-pinentry-mode= before Emacs 27) to =nil=
+  instead of the default ='loopback=.
 
   #+begin_src emacs-lisp
 (after! epa
@@ -1443,7 +1359,13 @@ Some other languages I use.
        nil))
   #+end_src
 
-- I find =iedit= absolutely indispensable when coding. In short: when you hit =Ctrl-;=, all occurrences of the symbol under the cursor (or the current selection) are highlighted, and any changes you make on one of them will be automatically applied to all others. It's great for renaming variables in code, but it needs to be used with care, as it has no idea of semantics, it's  a plain string replacement, so it can inadvertently modify unintended parts of the code.
+- I find =iedit= absolutely indispensable when coding. In short: when you hit
+  =Ctrl-;=, all occurrences of the symbol under the cursor (or the current
+  selection) are highlighted, and any changes you make on one of them will be
+  automatically applied to all others. It's great for renaming variables in
+  code, but it needs to be used with care, as it has no idea of semantics, it's
+  a plain string replacement, so it can inadvertently modify unintended parts of
+  the code.
 
   #+begin_src emacs-lisp :tangle packages.el
 (package! iedit)
@@ -1469,7 +1391,7 @@ Some other languages I use.
 
 - I'm still not fully convinced of running a terminal inside Emacs, but =vterm= is much nicer than any of the previous terminal emulators, so I'm giving it a try. I configure it so that it runs my [[https://elv.sh/][favorite shell]]. Vterm runs Elvish flawlessly!
   #+begin_src emacs-lisp
-(setq vterm-shell "/usr/local/bin/elvish")
+(setq vterm-shell "/usr/local/bin/fish")
   #+end_src
 
 - Add "unfill" commands to parallel the "fill" ones, bind ~A-q~ to =unfill-paragraph= and rebind ~M-q~ to the =unfill-toggle= command, which fills/unfills paragraphs alternatively.
@@ -1480,9 +1402,10 @@ Some other languages I use.
   #+begin_src emacs-lisp
 (use-package! unfill
   :defer t
-  :bind
-  ("M-q" . unfill-toggle)
-  ("A-q" . unfill-paragraph))
+;  :bind
+;  ("M-q" . unfill-toggle)
+;  ("A-q" . unfill-paragraph))
+)
   #+end_src
 
 - The [[https://github.com/bastibe/annotate.el][annotate]] package is nice - allows adding annotations to files without modifying the file itself.

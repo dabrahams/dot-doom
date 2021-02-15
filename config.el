@@ -58,14 +58,12 @@
 ;; they are implemented.
 
 (setq user-full-name "Dave Abrahams"
-      user-mail-address "dabrahams@google.com")
+  user-mail-address "dabrahams@google.com")
 
 (cond (IS-MAC
        (setq mac-command-modifier      'meta
              mac-option-modifier       'alt
              mac-right-option-modifier 'alt)))
-
-(setq kill-whole-line t)
 
 ;; This determines the style of line numbers in effect. If set to `nil', line
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
@@ -98,7 +96,6 @@
 (add-to-list 'initial-frame-alist '(fullscreen . maximized))
 (modify-frame-parameters
   nil (list (cons 'tool-bar-lines 0)))
-;;(if (not tool-bar-mode) (tool-bar-mode t))
 
 (map! "C-x b"   #'counsel-buffer-or-recentf
       "C-x C-b" #'counsel-switch-buffer)
@@ -151,61 +148,11 @@
 
 (map! "M-g o" #'counsel-outline)
 
-(after! smartparens
-  (defun zz/goto-match-paren (arg)
-    "Go to the matching paren/bracket, otherwise (or if ARG is not
-    nil) insert %.  vi style of % jumping to matching brace."
-    (interactive "p")
-    (if (not (memq last-command '(set-mark
-                                  cua-set-mark
-                                  zz/goto-match-paren
-                                  down-list
-                                  up-list
-                                  end-of-defun
-                                  beginning-of-defun
-                                  backward-sexp
-                                  forward-sexp
-                                  backward-up-list
-                                  forward-paragraph
-                                  backward-paragraph
-                                  end-of-buffer
-                                  beginning-of-buffer
-                                  backward-word
-                                  forward-word
-                                  mwheel-scroll
-                                  backward-word
-                                  forward-word
-                                  mouse-start-secondary
-                                  mouse-yank-secondary
-                                  mouse-secondary-save-then-kill
-                                  move-end-of-line
-                                  move-beginning-of-line
-                                  backward-char
-                                  forward-char
-                                  scroll-up
-                                  scroll-down
-                                  scroll-left
-                                  scroll-right
-                                  mouse-set-point
-                                  next-buffer
-                                  previous-buffer
-                                  previous-line
-                                  next-line
-                                  back-to-indentation
-                                  doom/backward-to-bol-or-indent
-                                  doom/forward-to-last-non-comment-or-eol
-                                  )))
-        (self-insert-command (or arg 1))
-      (cond ((looking-at "\\s\(") (sp-forward-sexp) (backward-char 1))
-            ((looking-at "\\s\)") (forward-char 1) (sp-backward-sexp))
-            (t (self-insert-command (or arg 1))))))
-  (map! "%" 'zz/goto-match-paren))
-
 (setq org-directory "~/org/")
 
 (after! org (setq org-hide-emphasis-markers t))
 
-(after! org (setq org-insert-heading-respect-content nil))
+(after! org (setq org-insert-heading-respect-content t))
 
 (after! org
   (setq org-log-done t)
@@ -535,7 +482,7 @@ headlines tagged with :noexport:"
          (title (cadar (org-collect-keywords '("TITLE"))))
          ;; Command to reload the browser and move to the correct slide
          (cmd (concat
-"osascript -e \"tell application \\\"Brave\\\" to repeat with W in windows
+"osascript -e \"tell application \\\"Google Chrome\\\" to repeat with W in windows
 set i to 0
 repeat with T in (tabs in W)
 set i to i + 1
@@ -588,11 +535,6 @@ end repeat\"")))
         :desc "Find function at point"
         "g p" #'find-function-at-point))
 
-(use-package! cfengine
-  :defer t
-  :commands cfengine3-mode
-  :mode ("\\.cf\\'" . cfengine3-mode))
-
 (use-package! graphviz-dot-mode)
 
 (after! magit
@@ -632,10 +574,11 @@ end repeat\"")))
      ,@body
      (float-time (time-since time))))
 
-(setq vterm-shell "/usr/local/bin/elvish")
+(setq vterm-shell "/usr/local/bin/fish")
 
 (use-package! unfill
   :defer t
-  :bind
-  ("M-q" . unfill-toggle)
-  ("A-q" . unfill-paragraph))
+;  :bind
+;  ("M-q" . unfill-toggle)
+;  ("A-q" . unfill-paragraph))
+)
