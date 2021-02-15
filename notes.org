@@ -1,0 +1,4 @@
+#+TITLE: Notes
+* Zamboni Config
+** [[https://oremacs.com/swiper][ivy/swiper/counsel]] changes lots of muscle-memory keystrokes.
+See its [[https://oremacs.com/swiper/#key-bindings-that-alter-the-minibuffer-input][minibuffer bindings]] in particular for isearch changes.
