@@ -481,6 +481,10 @@ Truncate lines in =ivy= childframes. [[https://discord.com/channels/406534637242
             value)))
 #+end_src
 ** Key bindings
+This section includes supporting code for relatively trivial functions that
+support ergonomic keybindings, but more substantial mode customizations or
+functionality beyond ~(interactive)~ commands will be found elsewhere.
+
 *** Disable some built-in annoyances.
 C-z is okay when we're running in a terminal, but minimizing the graphical frame I'm running in is just a pain.
 #+begin_src emacs-lisp
@@ -491,7 +495,7 @@ C-z is okay when we're running in a terminal, but minimizing the graphical frame
 (map! "C-\\" nil) ;; toggle-input-method
 #+end_src
 
-*** Dave's essential  bindings
+*** Dave's essential global bindings
 
 **** Basics
 #+begin_src emacs-lisp
@@ -626,6 +630,19 @@ so we can watch errors as they come up"
       [C-f4] #'first-error)
 #+end_src
 
+
+*** Mode-specific bindings
+**** ~dired~
+#+begin_src emacs-lisp
+(defun dwa/dired-copy-full-path-as-kill ()
+  "Copies the full path of the marked files into the kill buffer."
+  (interactive)
+  (setq current-prefix-arg '(0))
+  (call-interactively 'dired-copy-filename-as-kill))
+(map! :map dired-mode-map "W" #'dwa/dired-copy-full-path-as-kill)
+#+end_src
+
+
 *** Miscellaneous keybindings
 
 The Doom =undo= package introduces the use of [[https://gitlab.com/ideasman42/emacs-undo-fu][=undo-fu=]], which makes undo/redo
@@ -637,7 +654,6 @@ for redo.
 (after! undo-fu
   (map! :map undo-fu-mode-map "C-?" #'undo-fu-only-redo))
 #+end_src
-
 
 * Org mode
 

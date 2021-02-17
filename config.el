@@ -204,6 +204,13 @@ so we can watch errors as they come up"
       [S-f4] #'previous-error
       [C-f4] #'first-error)
 
+(defun dwa/dired-copy-full-path-as-kill ()
+  "Copies the full path of the marked files into the kill buffer."
+  (interactive)
+  (setq current-prefix-arg '(0))
+  (call-interactively 'dired-copy-filename-as-kill))
+(map! :map dired-mode-map "W" #'dwa/dired-copy-full-path-as-kill)
+
 (after! undo-fu
   (map! :map undo-fu-mode-map "C-?" #'undo-fu-only-redo))
 

@@ -80,19 +80,6 @@
 
 (define-key me-minor-mode-map [(meta ?`)] 'other-frame)
 
-;;; Need this to make dired-jump work from `C-x C-j'
-(require 'jabber nil t)
-(require 'dired-x)
-
-(defun dwa/dired-copy-full-path-as-kill ()
-  (interactive) 
-  (setq current-prefix-arg '(0))
-  (call-interactively 'dired-copy-filename-as-kill))
-
-(add-hook 'dired-load-hook 
-          (lambda ()
-            (define-key dired-mode-map [?W] 'dwa/dired-copy-full-path-as-kill)))
-
 (define-key ctl-x-map [(control ?z)] 'shell-toggle)
 
 (define-key mode-specific-map [?y ?n] 'yas/new-snippet)
