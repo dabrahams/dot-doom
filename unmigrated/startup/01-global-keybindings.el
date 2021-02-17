@@ -1,3 +1,5 @@
+;; ✔ Initial Migration Complete
+
 ;; Undo built-in annoyances
 
 (global-unset-key [f11])
