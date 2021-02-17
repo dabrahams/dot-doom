@@ -11,14 +11,10 @@
 
 [[file:splash/doom-emacs-bw-light.svg]]
 
-This is my Doom Emacs configuration. From this org file, all the necessary Doom Emacs config files are generated.
-
-Based heavily on the work of Diego Zamboni <diego@zzamboni.org>
+Based on the work of Diego Zamboni <diego@zzamboni.org>
 
 This file is written in [[https://leanpub.com/lit-config][literate programming style]] using [[https://orgmode.org/][org-mode]]. See [[file:init.el][init.el]],
-[[file:packages.el][packages.el]] and [[file:config.el][config.el]] for the generated files. You can see this in a nicer
-format on my blog post [[https://zzamboni.org/post/my-doom-emacs-configuration-with-commentary/][My Doom Emacs configuration, with commentary]].
-
+[[file:packages.el][packages.el]] and [[file:config.el][config.el]] for the generated files. 
 
 * Doom config file overview
 
@@ -194,20 +190,6 @@ instructions about the contents of the file.
 #+end_src
 #+html: </details>
 
-** Customized variables
-
-Doom [[https://github.com/hlissner/doom-emacs/blob/develop/docs/getting_started.org#configure][does not recommend the Emacs =customize= mechanism]]:
-
-#+begin_quote
-/Note: do not use M-x customize or the customize API in general. Doom is/
-/designed to be configured programmatically from your config.el, which can/
-/conflict with Customize’s way of modifying variables./
-#+end_quote
-
-All necessary settings are therefore set by hand as part of this configuration
-file. The only exceptions are "safe variable" and "safe theme" settings, which
-are automatically saved by Emacs in =custom.el=, but this is OK as they don't
-conflict with anything else from the config.
 
 * Doom modules
 
@@ -217,133 +199,133 @@ here as-is for now, as it is quite well structured and clear.
 #+begin_src emacs-lisp :tangle init.el
 (doom!
  :input
- ;;chinese
- ;;japanese
- ;;layout              ; auie,ctsrnm is the superior home row
+ ;;;chinese
+ ;;;japanese
+ ;;;layout              ; auie,ctsrnm is the superior home row
 
  :completion
  (company +childframe) ; the ultimate code completion backend
- ;;helm                ; the *other* search engine for love and life
+ ;;;helm                ; the *other* search engine for love and life
  ;;ido                 ; the other *other* search engine...
  (ivy +prescient -childframe
       -fuzzy +icons)   ; a search engine for love and life
 
  :ui
- ;;deft                ; notational velocity for Emacs
+ ;deft                ; notational velocity for Emacs
  doom                  ; what makes DOOM look the way it does
  doom-dashboard        ; a nifty splash screen for Emacs
- ;;doom-quit           ; DOOM quit-message prompts when you quit Emacs
- ;;fill-column         ; a `fill-column' indicator
- hl-todo               ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+ ;;;doom-quit           ; DOOM quit-message prompts when you quit Emacs
+ fill-column         ; a `fill-column' indicator
+ ;hl-todo               ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
  ;;hydra
  ;;indent-guides       ; highlighted indent columns
  (ligatures +extra)    ; ligatures or substitute text with pretty symbols
  ;;minimap             ; show a map of the code on the side
  modeline              ; snazzy, Atom-inspired modeline, plus API
- nav-flash             ; blink cursor line after big motions
+ ;nav-flash             ; blink cursor line after big motions
  ;;neotree             ; a project drawer, like NERDTree for vim
- ophints               ; highlight the region an operation acts on
- (popup +defaults)   ; tame sudden yet inevitable temporary windows
+ ;ophints               ; highlight the region an operation acts on
+ ;;(popup +defaults)   ; tame sudden yet inevitable temporary windows
  ;;tabs                ; a tab bar for Emacs
- ;;treemacs            ; a project drawer, like neotree but cooler
- ;;unicode             ; extended unicode support for various languages
- ;;vc-gutter           ; vcs diff in the fringe
- vi-tilde-fringe       ; fringe tildes to mark beyond EOB
- window-select         ; visually switch windows
- workspaces            ; tab emulation, persistence & separate workspaces
+ ;treemacs            ; a project drawer, like neotree but cooler
+ ;unicode             ; extended unicode support for various languages
+ ;vc-gutter           ; vcs diff in the fringe
+ ;;vi-tilde-fringe       ; fringe tildes to mark beyond EOB
+ ;window-select         ; visually switch windows
+ ;workspaces            ; tab emulation, persistence & separate workspaces
  zen                   ; distraction-free coding or writing
 
  :editor
- ;;(evil +everywhere)  ; come to the dark side, we have cookies
- file-templates        ; auto-snippets for empty files
- ;;fold                ; (nigh) universal code folding
- ;;(format +onsave)    ; automated prettiness
+ ;;;(evil +everywhere)  ; come to the dark side, we have cookies
+ ;file-templates        ; auto-snippets for empty files
+ ;fold                ; (nigh) universal code folding
+ ;(format +onsave)    ; automated prettiness
  ;;god                 ; run Emacs commands without modifier keys
  ;;lispy               ; vim for lisp, for people who don't like vim
- ;;multiple-cursors    ; editing in many places at once
+ ;multiple-cursors    ; editing in many places at once
  ;;objed               ; text object editing for the innocent
  ;;parinfer            ; turn lisp into python, sort of
- ;;rotate-text         ; cycle region at point between text candidates
- snippets              ; my elves. They type so I don't have to
+ ;rotate-text         ; cycle region at point between text candidates
+ ;snippets              ; my elves. They type so I don't have to
  ;;word-wrap           ; soft wrapping with language-aware indent
 
  :emacs
- dired                 ; making dired pretty [functional]
- electric              ; smarter, keyword-based electric-indent
- ;;ibuffer             ; interactive buffer management
- undo                  ; persistent, smarter undo for your inevitable mistakes
- vc                    ; version-control and Emacs, sitting in a tree
+ ;dired                 ; making dired pretty [functional]
+ ;electric              ; smarter, keyword-based electric-indent
+ ;ibuffer             ; interactive buffer management
+ ;undo                  ; persistent, smarter undo for your inevitable mistakes
+ ;vc                    ; version-control and Emacs, sitting in a tree
 
  :term
  ;;eshell              ; the elisp shell that works everywhere
- ;;shell               ; simple shell REPL for Emacs
+ ;shell               ; simple shell REPL for Emacs
  ;;term                ; basic terminal emulator for Emacs
- vterm                 ; the best terminal emulation in Emacs
+ ;vterm                ; the best terminal emulation in Emacs
 
  :checkers
- (syntax +childframe)  ; tasing you for every semicolon you forget
- spell                 ; tasing you for misspelling mispelling
+ ;(syntax +childframe)  ; tasing you for every semicolon you forget
+ ;spell                 ; tasing you for misspelling mispelling
  ;;grammar             ; tasing grammar mistake every you make
 
  :tools
  ;;ansible
- debugger              ; FIXME stepping through code, to help you add bugs
+ ;debugger              ; FIXME stepping through code, to help you add bugs
  ;;direnv
  ;;docker
  ;;editorconfig        ; let someone else argue about tabs vs spaces
  ;;ein                 ; tame Jupyter notebooks with emacs
- (eval +overlay)       ; run code, run (also, repls)
- gist                  ; interacting with github gists
- lookup                ; navigate your code and its documentation
- lsp
- (magit +forge)        ; a git porcelain for Emacs
+ ;(eval +overlay)       ; run code, run (also, repls)
+ ;gist                  ; interacting with github gists
+ ;lookup                ; navigate your code and its documentation
+ ;lsp
+ (magit)        ; a git porcelain for Emacs
  ;;make                ; run make tasks from Emacs
- pass                  ; password manager for nerds
- ;;pdf                 ; pdf enhancements
+ ;;pass                  ; password manager for nerds
+ ;pdf                 ; pdf enhancements
  ;;prodigy             ; FIXME managing external services & code builders
  ;;rgb                 ; creating color strings
  ;;taskrunner          ; taskrunner for all your projects
  ;;terraform           ; infrastructure as code
- ;;tmux                ; an API for interacting with tmux
- ;;upload              ; map local to remote projects via ssh/ftp
+ ;tmux                ; an API for interacting with tmux
+ ;upload              ; map local to remote projects via ssh/ftp
 
  :os
  (:if IS-MAC macos)    ; improve compatibility with macOS
- ;;tty                 ; improve the terminal Emacs experience
+ ;tty                 ; improve the terminal Emacs experience
 
  :lang
  ;;agda                ; types of types of types of types...
- ;;cc                  ; C/C++/Obj-C madness
+ cc                  ; C/C++/Obj-C madness
  ;;clojure             ; java with a lisp
- common-lisp           ; if you've seen one lisp, you've seen them all
- ;;coq                 ; proofs-as-programs
- ;;crystal             ; ruby at the speed of c
+ ;;;common-lisp           ; if you've seen one lisp, you've seen them all
+ ;;;coq                 ; proofs-as-programs
+ ;crystal             ; ruby at the speed of c
  ;;csharp              ; unity, .NET, and mono shenanigans
- ;;data                ; config/data formats
- ;;(dart +flutter)     ; paint ui and not much else
+ ;data                ; config/data formats
+ ;(dart +flutter)     ; paint ui and not much else
  ;;elixir              ; erlang done right
  ;;elm                 ; care for a cup of TEA?
  emacs-lisp            ; drown in parentheses
- ;;erlang              ; an elegant language for a more civilized age
- (ess +lsp)            ; emacs speaks statistics
- ;;faust               ; dsp, but you get to keep your soul
- ;;fsharp              ; ML stands for Microsoft's Language
- ;;fstar               ; (dependent) types and (monadic) effects and Z3
- ;;gdscript            ; the language you waited for
- (go +lsp)             ; the hipster dialect
+ ;;;erlang              ; an elegant language for a more civilized age
+ ;;;(ess +lsp)            ; emacs speaks statistics
+ ;;;faust               ; dsp, but you get to keep your soul
+ ;;;fsharp              ; ML stands for Microsoft's Language
+ ;;;fstar               ; (dependent) types and (monadic) effects and Z3
+ ;;;gdscript            ; the language you waited for
+ ;;(go +lsp)             ; the hipster dialect
  ;;(haskell +dante)    ; a language that's lazier than I am
- ;;hy                  ; readability of scheme w/ speed of python
- ;;idris               ; a language you can depend on
+ ;;;hy                  ; readability of scheme w/ speed of python
+ ;;;idris               ; a language you can depend on
  json                  ; At least it ain't XML
  ;;(java +meghanada)   ; the poster child for carpal tunnel syndrome
- ;;javascript          ; all(hope(abandon(ye(who(enter(here))))))
+ ;javascript          ; all(hope(abandon(ye(who(enter(here))))))
  ;;julia               ; a better, faster MATLAB
  ;;kotlin              ; a better, slicker Java(Script)
  (latex +latexmk)      ; writing papers in Emacs has never been so fun
  ;;lean
  ;;factor
  ;;ledger              ; an accounting system in Emacs
- lua                   ; one-based indices? one-based indices
+ ;lua                   ; one-based indices? one-based indices
  markdown              ; writing docs for people to ignore
  ;;nim                 ; python + lisp at the speed of c
  ;;nix                 ; I hereby declare "nix geht mehr!"
@@ -352,40 +334,41 @@ here as-is for now, as it is quite well structured and clear.
       +hugo +roam +pandoc
       +present)        ; organize your plain life in plain text
  ;;php                 ; perl's insecure younger brother
- plantuml              ; diagrams for confusing people more
+ ;;plantuml              ; diagrams for confusing people more
  ;;purescript          ; javascript, but functional
  python                ; beautiful is better than ugly
  ;;qt                  ; the 'cutest' gui framework ever
- racket                ; a DSL for DSLs
+ ;;racket                ; a DSL for DSLs
  ;;raku                ; the artist formerly known as perl6
  ;;rest                ; Emacs as a REST client
  rst                   ; ReST in peace
  ;;(ruby +rails)       ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
- ;;rust                ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+ rust                ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
  ;;scala               ; java, but good
  ;;scheme              ; a fully conniving family of lisps
  (sh +lsp)             ; she sells {ba,z,fi}sh shells on the C xor
  ;;sml
  ;;solidity            ; do you need a blockchain? No.
- ;;swift               ; who asked for emoji variables?
+ swift               ; who asked for emoji variables?
  ;;terra               ; Earth and Moon in alignment for performance.
- ;;web                 ; the tubes
+ ;web                 ; the tubes
  (yaml +lsp)           ; JSON, but readable
 
  :email
- ;;(mu4e +gmail)
- ;;notmuch
- ;;(wanderlust +gmail)
+ ;(mu4e +gmail)
+ ;notmuch
+ ;(wanderlust +gmail)
 
  :app
  ;;calendar
  irc                   ; how neckbeards socialize
  ;;(rss +org)          ; emacs as an RSS reader
- ;;twitter             ; twitter client https://twitter.com/vnought
+ ;twitter             ; twitter client https://twitter.com/vnought
 
  :config
- ;;literate
- (default +bindings +smartparens))
+ ;literate
+ ;(default +bindings +smartparens)
+)
 #+end_src
 
 * General configuration
@@ -441,12 +424,12 @@ If you want to choose at random among a few different splash images, you can lis
                 (nth (random (length alternatives)) alternatives))))
 #+end_src
 
-Set base and variable-pitch fonts. I currently like [[https://github.com/tonsky/FiraCode][Fira Code]] and [[https://www.huertatipografica.com/en/fonts/alegreya-ht-pro][Alegreya]] (another favorite and my previous choice: [[https://edwardtufte.github.io/et-book/][ET Book]]).
+Set base and variable-pitch fonts.
 
 #+begin_src emacs-lisp
-(setq doom-font (font-spec :family "Fira Code" :size 18)
+(setq doom-font (font-spec :family "Monaco" :size 15)
       ;;doom-variable-pitch-font (font-spec :family "ETBembo" :size 18)
-      doom-variable-pitch-font (font-spec :family "Alegreya" :size 18))
+      doom-variable-pitch-font (font-spec :family "Euphemia UCAS" :size 15))
 #+end_src
 
 Allow mixed fonts in a buffer. This is particularly useful for Org mode, so I can mix source and prose blocks in the same document.
@@ -456,17 +439,10 @@ Allow mixed fonts in a buffer. This is particularly useful for Org mode, so I ca
 (setq mixed-pitch-variable-pitch-cursor nil)
 #+end_src
 
-Set the theme to use. I like the [[https://github.com/nashamri/spacemacs-theme][Spacemacs-Light]], which does not come with Doom,
-so we need to install it from =package.el=:
-
-#+begin_src emacs-lisp :tangle packages.el
-(package! spacemacs-theme)
-#+end_src
-
-And then from =config.el= we specify the theme to use.
+Visual theme
 
 #+begin_src emacs-lisp
-(setq doom-theme 'spacemacs-light)
+(setq doom-theme 'doom-zenburn)
 ;;(setq doom-theme 'doom-nord-light)
 ;;(setq doom-theme 'doom-solarized-light)
 #+end_src
@@ -504,107 +480,34 @@ Truncate lines in =ivy= childframes. [[https://discord.com/channels/406534637242
 #+end_src
 ** Key bindings
 
-Doom Emacs has an extensive keybinding system, and most module functions are already bound. I modify some keybindings for simplicity of to match the muscle memory I have from my previous Emacs configuration.
+Doom Emacs has an extensive keybinding system, and most module functions are
+already bound. I modify some keybindings for simplicity of to match the muscle
+memory I have from my previous Emacs configuration.
 
-*Note:* I do not use VI-style keybindings (which are the default for Doom) because I have decades of muscle memory with Emacs-style keybindings. You may need to adjust these if you want to use them.
+*Note:* I do not use VI-style keybindings (which are the default for Doom)
+because I have decades of muscle memory with Emacs-style keybindings. You may
+need to adjust these if you want to use them.
+
+*** Dave's essential  bindings
+#+begin_src emacs-lisp
+(map! "C-RET"   #'other-buffer
+      "C-<" #'backward-word
+      "C-." #'forward-word)
+#+end_src
+
 
 *** Miscellaneous keybindings
 
-Use =counsel-buffer-or-recentf= for ~C-x b~. I like being able to see all recently opened files, instead of just the current ones. This makes it possible to use ~C-x b~ almost as a replacement for ~C-c C-f~, for files that I edit often. Similarly, for switching between non-file buffers I use =counsel-switch-buffer=, mapped to ~C-x C-b~.
-
-#+begin_src emacs-lisp
-(map! "C-x b"   #'counsel-buffer-or-recentf
-      "C-x C-b" #'counsel-switch-buffer)
-#+end_src
-
-The =counsel-buffer-or-recentf= function by default shows duplicated entries because it does not abbreviate the paths of the open buffers. The function below fixes this, I have submitted this change to the =counsel= library (https://github.com/abo-abo/swiper/pull/2687), in the meantime I define it here and integrate it via =advice-add=.
-
-#+begin_src emacs-lisp
-(defun zz/counsel-buffer-or-recentf-candidates ()
-  "Return candidates for `counsel-buffer-or-recentf'."
-  (require 'recentf)
-  (recentf-mode)
-  (let ((buffers
-         (delq nil
-               (mapcar (lambda (b)
-                         (when (buffer-file-name b)
-                           (abbreviate-file-name (buffer-file-name b))))
-                       (delq (current-buffer) (buffer-list))))))
-    (append
-     buffers
-     (cl-remove-if (lambda (f) (member f buffers))
-                   (counsel-recentf-candidates)))))
-
-(advice-add #'counsel-buffer-or-recentf-candidates
-            :override #'zz/counsel-buffer-or-recentf-candidates)
-#+end_src
-
-The =switch-buffer-functions= package allows us to update the =recentf= buffer list as we switch between them, so that the list produced by =counsel-buffer-or-recentf= is shown in the order the buffers have been visited, rather than in the order they were opened. Thanks to [[https://github.com/abo-abo/swiper/issues/1560#issuecomment-729403768][@tau3000]] for the tip.
-
-#+begin_src emacs-lisp :tangle packages.el
-(package! switch-buffer-functions)
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package! switch-buffer-functions
-  :after recentf
-  :preface
-  (defun my-recentf-track-visited-file (_prev _curr)
-    (and buffer-file-name
-         (recentf-add-file buffer-file-name)))
-  :init
-  (add-hook 'switch-buffer-functions #'my-recentf-track-visited-file))
-#+end_src
-
-Use =+default/search-buffer= for searching by default, I like the Swiper interface.
-
-#+begin_src emacs-lisp
-;;(map! "C-s" #'counsel-grep-or-swiper)
-(map! "C-s" #'+default/search-buffer)
-#+end_src
-
-Map ~C-c C-g~ to =magit-status= - I have too ingrained muscle memory for this keybinding.
-
-#+begin_src emacs-lisp
-(map! :after magit "C-c C-g" #'magit-status)
-#+end_src
-
-Interactive search key bindings -  [[https://github.com/benma/visual-regexp-steroids.el][visual-regexp-steroids]] provides sane regular expressions and visual incremental search. I use the =pcre2el= package to support PCRE-style regular expressions.
-
-#+begin_src emacs-lisp :tangle packages.el
-(package! pcre2el)
-(package! visual-regexp-steroids)
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package! visual-regexp-steroids
-  :defer 3
-  :config
-  (require 'pcre2el)
-  (setq vr/engine 'pcre2el)
-  (map! "C-c s r" #'vr/replace)
-  (map! "C-c s q" #'vr/query-replace))
-#+end_src
-
-The Doom =undo= package introduces the use of [[https://gitlab.com/ideasman42/emacs-undo-fu][=undo-fu=]], which makes undo/redo more "lineal". I normally use ~C-/~ for undo and Emacs doesn't have a separate "redo" action, so I map ~C-?~ (in my keyboard, the same combination + ~Shift~) for redo.
+The Doom =undo= package introduces the use of [[https://gitlab.com/ideasman42/emacs-undo-fu][=undo-fu=]], which makes undo/redo
+more "lineal". I normally use ~C-/~ for undo and Emacs doesn't have a separate
+"redo" action, so I map ~C-?~ (in my keyboard, the same combination + ~Shift~)
+for redo.
 
 #+begin_src emacs-lisp
 (after! undo-fu
   (map! :map undo-fu-mode-map "C-?" #'undo-fu-only-redo))
 #+end_src
 
-Replace the default =goto-line= keybindings with =avy-goto-line=, which is more flexible and also falls back to =goto-line= if a number is typed.
-
-#+begin_src emacs-lisp
-(map! "M-g g" #'avy-goto-line)
-(map! "M-g M-g" #'avy-goto-line)
-#+end_src
-
-Map a keybindings for =counsel-outline=, which allows easily navigating documents (it works best with Org documents, but it also tries to extract navigation information from other file types).
-
-#+begin_src emacs-lisp
-(map! "M-g o" #'counsel-outline)
-#+end_src
 
 * Org mode
 
@@ -613,7 +516,7 @@ Map a keybindings for =counsel-outline=, which allows easily navigating document
 Default directory for Org files.
 
 #+begin_src emacs-lisp
-(setq org-directory "~/org/")
+(setq org-directory "~/GSync/org/")
 #+end_src
 
 Hide Org markup indicators.
@@ -644,22 +547,6 @@ Use the special ~C-a~, ~C-e~ and ~C-k~ definitions for Org, which enable some sp
   (setq org-special-ctrl-k t))
 #+end_src
 
-Enable [[https://orgmode.org/manual/Speed-keys.html][Speed Keys]], which allows quick single-key commands when the cursor is placed on a heading. Usually the cursor needs to be at the beginning of a headline line, but defining it with this function makes them active on any of the asterisks at the beginning of the line.
-
-#+begin_src emacs-lisp
-(after! org
-  (setq org-use-speed-commands
-        (lambda ()
-          (and (looking-at org-outline-regexp)
-               (looking-back "^\**")))))
-#+end_src
-
-Disable [[https://code.orgmode.org/bzg/org-mode/src/master/etc/ORG-NEWS#L323][electric-mode]], which is now respected by Org and which creates some confusing indentation sometimes.
-
-#+begin_src emacs-lisp
-(add-hook! org-mode (electric-indent-local-mode -1))
-#+end_src
-
 I really dislike completion of words as I type prose (in code it's OK), so I disable it in Org:
 
 #+begin_src emacs-lisp
@@ -670,11 +557,10 @@ I really dislike completion of words as I type prose (in code it's OK), so I dis
 #+end_src
 ** Org visual settings
 
-Enable variable and visual line mode in Org mode by default.
+Enable variable pitch mode in Org mode by default.
 
 #+begin_src emacs-lisp
 (add-hook! org-mode :append
-           #'visual-line-mode
            #'variable-pitch-mode)
 #+end_src
 
@@ -695,12 +581,15 @@ First, I define where all my Org-captured things can be found.
 #+begin_src emacs-lisp
 (after! org
   (setq org-agenda-files
-        '("~/gtd" "~/Work/work.org.gpg" "~/org/")))
+        '("~/GSync/gtd" "~/GSync/Work/work.org.gpg" org-directory)))
 #+end_src
 
-I define some global keybindings  to open my frequently-used org files (original tip from [[https://sachachua.com/blog/2015/02/learn-take-notes-efficiently-org-mode/][Learn how to take notes more efficiently in Org Mode]]).
+I define some global keybindings to open my frequently-used org files (original
+tip from [[https://sachachua.com/blog/2015/02/learn-take-notes-efficiently-org-mode/][Learn how to take notes more efficiently in Org Mode]]).
 
-First, I define a helper function to define keybindings that open files. Note that this requires lexical binding to be enabled, so that  the =lambda= creates a closure, otherwise the keybindings don't work.
+First, I define a helper function to define keybindings that open files. Note
+that this requires lexical binding to be enabled, so that the =lambda= creates a
+closure, otherwise the keybindings don't work.
 
 #+begin_src emacs-lisp
 (defun zz/add-file-keybinding (key file &optional desc)
@@ -715,22 +604,19 @@ First, I define a helper function to define keybindings that open files. Note th
 Now I define keybindings to access my commonly-used org files.
 
 #+begin_src emacs-lisp
-(zz/add-file-keybinding "C-c z w" "~/Work/work.org.gpg" "work.org")
-(zz/add-file-keybinding "C-c z i" "~/org/ideas.org" "ideas.org")
-(zz/add-file-keybinding "C-c z p" "~/org/projects.org" "projects.org")
-(zz/add-file-keybinding "C-c z d" "~/org/diary.org" "diary.org")
-#+end_src
-
-I'm still trying out =org-roam=, although I have not figured out very well how it works for my setup. For now I configure it to include my whole Org directory.
-
-#+begin_src emacs-lisp
-(setq org-roam-directory org-directory)
-(setq +org-roam-open-buffer-on-find-file nil)
+(zz/add-file-keybinding "C-c z w" "~/GSync/Work/work.org.gpg" "work.org")
+(zz/add-file-keybinding "C-c z i" (concat org-directory "ideas.org") "ideas.org")
+(zz/add-file-keybinding "C-c z p" (concat org-directory "projects.org") "projects.org")
+(zz/add-file-keybinding "C-c z d" (concat org-directory "diary.org") "diary.org")
 #+end_src
 
 ** Capturing images
 
-Using =org-download= to make it easier to insert images into my org notes. I don't like the configuration provided by Doom as part of the =(org +dragndrop)= module, so I install the package by hand and configure it to my liking. I also define a new keybinding to paste an image from the clipboard, asking for the filename first.
+Using =org-download= to make it easier to insert images into my org notes. I
+don't like the configuration provided by Doom as part of the =(org +dragndrop)=
+module, so I install the package by hand and configure it to my liking. I also
+define a new keybinding to paste an image from the clipboard, asking for the
+filename first.
 
 #+begin_src emacs-lisp :tangle packages.el
 (package! org-download)
@@ -932,7 +818,7 @@ I am trying out Trevoke's [[https://github.com/Trevoke/org-gtd.el][org-gtd]]. I 
   :after org
   :config
   ;; where org-gtd will put its files. This value is also the default one.
-  (setq org-gtd-directory "~/gtd/")
+  (setq org-gtd-directory "~/GSync/gtd/")
   ;; package: https://github.com/Malabarba/org-agenda-property
   ;; this is so you can see who an item was delegated to in the agenda
   (setq org-agenda-property-list '("DELEGATED_TO"))
@@ -1006,57 +892,13 @@ My =ox-awesomecv= package is [[https://gitlab.com/Titan-C/org-cv/-/merge_request
   :after org)
 #+end_src
 
-** Publishing to LeanPub
-
-I use [[https://leanpub.com/][LeanPub]] for self-publishing [[https://leanpub.com/u/zzamboni][my books]]. Fortunately, it is possible to export from org-mode to both [[https://leanpub.com/lfm/read][LeanPub-flavored Markdown]] and [[https://leanpub.com/markua/read][Markua]], so I can use Org for writing the text and simply export it in the correct format and structure needed by Leanpub.
-
-When I decided to use org-mode to write my books, I looked around for existing modules and code. Here are some of the resources I found:
-- [[http://juanreyero.com/open/ox-leanpub/index.html][Description of ox-leanpub.el]] ([[https://github.com/juanre/ox-leanpub][GitHub repo]]) by [[http://juanreyero.com/about/][Juan Reyero]];
-- [[https://medium.com/@lakshminp/publishing-a-book-using-org-mode-9e817a56d144][Publishing a book using org-mode]] by [[https://medium.com/@lakshminp/publishing-a-book-using-org-mode-9e817a56d144][Lakshmi Narasimhan]];
-- [[http://irreal.org/blog/?p=5313][Publishing a Book with Leanpub and Org Mode]] by Jon Snader (from where I found the links to the above).
-
-Building upon these, I developed a new =ox-leanpub= package which you can find in MELPA (source at [[https://github.com/zzamboni/ox-leanpub]]), and which I load and configure below.
-
-The =ox-leanpub= module sets up Markua export automatically. I add the code for setting up the Markdown exporter too (I don't use it, but just to keep an eye on any breakage):
-
-#+begin_src emacs-lisp :tangle packages.el
-(package! ox-leanpub
-  :recipe (:local-repo "~/Dropbox/Personal/devel/emacs/ox-leanpub"))
-#+end_src
-#+begin_src emacs-lisp
-(use-package! ox-leanpub
-  :after org
-  :config
-  (require 'ox-leanpub-markdown)
-  (org-leanpub-book-setup-menu-markdown))
-#+end_src
-
-I highly recommend using Markua rather than Markdown, as it is the format that Leanpub is guaranteed to support in the future, and where most of the new features are being developed.
-
-With this setup, I can write my book in org-mode (I usually keep a single =book.org= file at the top of my repository), and then call the corresponding "Book" export commands. The =manuscript= directory, as well as the corresponding =Book.txt= and other necessary files are created and populated automatically.
-
-If you are interested in learning more about publishing to Leanpub with Org-mode, check out my book [[https://leanpub.com/emacs-org-leanpub][/Publishing with Emacs, Org-mode and Leanpub/]].
-
-** Blogging with Hugo
-
-[[https://ox-hugo.scripter.co/][ox-hugo]] is an awesome way to blog from org-mode. It makes it possible for posts in org-mode format to be kept separate, and it generates the Markdown files for Hugo. Hugo [[https://gohugo.io/content-management/formats/][supports org files]], but using ox-hugo has multiple advantages:
-
-- Parsing is done by org-mode natively, not by an external library. Although goorgeous (used by Hugo) is very good, it still lacks in many areas, which leads to text being interpreted differently as by org-mode.
-- Hugo is left to parse a native Markdown file, which means that many of its features such as shortcodes, TOC generation, etc., can still be used on the generated file.
-
-Doom Emacs includes and configures =ox-hugo= as part of its =(:lang org +hugo)= module, so all that's left is to configure some parameters to my liking.
-
-I set =org-hugo-use-code-for-kbd= so that I can apply a custom style to keyboard bindings in my blog.
-
-#+begin_src emacs-lisp
-(after! ox-hugo
-  (setq org-hugo-use-code-for-kbd t))
-#+end_src
 ** Code for org-mode macros
 
 Here I define functions which get used in some of my org-mode macros
 
-The first is a support function which gets used in some of the following, to return a string (or an optional custom  string) only if  it  is a non-zero, non-whitespace string,  and =nil= otherwise.
+The first is a support function which gets used in some of the following, to
+return a string (or an optional custom string) only if it is a non-zero,
+non-whitespace string, and =nil= otherwise.
 
 #+begin_src emacs-lisp
 (defun zz/org-if-str (str &optional desc)
@@ -1064,7 +906,10 @@ The first is a support function which gets used in some of the following, to ret
     (or (org-string-nw-p desc) str)))
 #+end_src
 
-This function receives three arguments, and returns the org-mode code for a link to the Hammerspoon API documentation for the =link= module, optionally to a specific =function=. If =desc= is passed, it is used as the display text, otherwise =section.function= is used.
+This function receives three arguments, and returns the org-mode code for a link
+to the Hammerspoon API documentation for the =link= module, optionally to a
+specific =function=. If =desc= is passed, it is used as the display text,
+otherwise =section.function= is used.
 
 #+begin_src emacs-lisp
 (defun zz/org-macro-hsapi-code (module &optional func desc)
@@ -1077,7 +922,11 @@ This function receives three arguments, and returns the org-mode code for a link
                        (zz/org-if-str func (concat "." func)))))))
 #+end_src
 
-Split STR at spaces and wrap each element with the =~= char, separated by =+=. Zero-width spaces are inserted around the plus signs so that they get formatted correctly. Envisioned use is for formatting keybinding descriptions. There are two versions of this function: "outer" wraps each element in  =~=, the "inner" wraps the whole sequence in them.
+Split STR at spaces and wrap each element with the =~= char, separated by
+=+=. Zero-width spaces are inserted around the plus signs so that they get
+formatted correctly. Envisioned use is for formatting keybinding
+descriptions. There are two versions of this function: "outer" wraps each
+element in =~=, the "inner" wraps the whole sequence in them.
 
 #+begin_src emacs-lisp
 (defun zz/org-macro-keys-code-outer (str)
@@ -1114,7 +963,9 @@ Links to a specific section/function of the Lua manual.
 #+end_src
 ** Reformatting an Org buffer
 
-I picked up this little gem in the org mailing list. A function that reformats the current buffer by regenerating the text from its internal parsed representation. Quite amazing.
+I picked up this little gem in the org mailing list. A function that reformats
+the current buffer by regenerating the text from its internal parsed
+representation. Quite amazing.
 
 #+begin_src emacs-lisp
 (defun zz/org-reformat-buffer ()
@@ -1247,16 +1098,6 @@ end repeat\"")))
 (setq jiralib-url "https://jira.swisscom.com/")
 #+end_src
 ** Programming Org
-
-Trying out [[https://github.com/ndwarshuis/org-ml][org-ml]] for easier access to Org objects.
-
-#+begin_src emacs-lisp :tangle packages.el
-(package! org-ml)
-#+end_src
-#+begin_src emacs-lisp
-(use-package! org-ml
-  :after org)
-#+end_src
 
 * Coding
 
@@ -1413,29 +1254,7 @@ Some other languages I use.
   #+begin_src emacs-lisp :tangle packages.el
 (package! annotate)
   #+end_src
-
-- [[https://github.com/csrhodes/gift-mode][gift-mode]] for editing quizzes in [[https://docs.moodle.org/39/en/GIFT_format][GIFT format]].
-  #+begin_src emacs-lisp :tangle packages.el
-(package! gift-mode)
-  #+end_src
 * Experiments
-
-Some experimental code to list functions which are not native-compiled. Sort of works but its very slow. This does not get tangled to my config.el, I just keep it here for reference.
-
-#+begin_src emacs-lisp :tangle no
-(with-current-buffer (get-buffer-create "*Non-native functions*")
-  (mapatoms
-   (lambda (s)
-     (when (and (functionp s)
-                (not (helpful--native-compiled-p s))
-                (not (helpful--primitive-p s t)))
-       (insert (symbol-name s))
-       (insert " --- ")
-       (insert (or (cdr (find-function-library s)) "<no file>"))
-       (insert "\n"))
-     ))
-  )
-#+end_src
 
 Make ox-md export src blocks with backticks and the language name.
 

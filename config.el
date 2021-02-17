@@ -80,14 +80,14 @@
         (concat doom-private-dir "splash/"
                 (nth (random (length alternatives)) alternatives))))
 
-(setq doom-font (font-spec :family "Fira Code" :size 18)
+(setq doom-font (font-spec :family "Monaco" :size 15)
       ;;doom-variable-pitch-font (font-spec :family "ETBembo" :size 18)
-      doom-variable-pitch-font (font-spec :family "Alegreya" :size 18))
+      doom-variable-pitch-font (font-spec :family "Euphemia UCAS" :size 15))
 
 (add-hook! 'org-mode-hook #'mixed-pitch-mode)
 (setq mixed-pitch-variable-pitch-cursor nil)
 
-(setq doom-theme 'spacemacs-light)
+(setq doom-theme 'doom-zenburn)
 ;;(setq doom-theme 'doom-nord-light)
 ;;(setq doom-theme 'doom-solarized-light)
 
@@ -97,58 +97,14 @@
 (modify-frame-parameters
   nil (list (cons 'tool-bar-lines 0)))
 
-(map! "C-x b"   #'counsel-buffer-or-recentf
-      "C-x C-b" #'counsel-switch-buffer)
-
-(defun zz/counsel-buffer-or-recentf-candidates ()
-  "Return candidates for `counsel-buffer-or-recentf'."
-  (require 'recentf)
-  (recentf-mode)
-  (let ((buffers
-         (delq nil
-               (mapcar (lambda (b)
-                         (when (buffer-file-name b)
-                           (abbreviate-file-name (buffer-file-name b))))
-                       (delq (current-buffer) (buffer-list))))))
-    (append
-     buffers
-     (cl-remove-if (lambda (f) (member f buffers))
-                   (counsel-recentf-candidates)))))
-
-(advice-add #'counsel-buffer-or-recentf-candidates
-            :override #'zz/counsel-buffer-or-recentf-candidates)
-
-(use-package! switch-buffer-functions
-  :after recentf
-  :preface
-  (defun my-recentf-track-visited-file (_prev _curr)
-    (and buffer-file-name
-         (recentf-add-file buffer-file-name)))
-  :init
-  (add-hook 'switch-buffer-functions #'my-recentf-track-visited-file))
-
-;;(map! "C-s" #'counsel-grep-or-swiper)
-(map! "C-s" #'+default/search-buffer)
-
-(map! :after magit "C-c C-g" #'magit-status)
-
-(use-package! visual-regexp-steroids
-  :defer 3
-  :config
-  (require 'pcre2el)
-  (setq vr/engine 'pcre2el)
-  (map! "C-c s r" #'vr/replace)
-  (map! "C-c s q" #'vr/query-replace))
+(map! "C-RET"   #'other-buffer
+      "C-<" #'backward-word
+      "C-." #'forward-word)
 
 (after! undo-fu
   (map! :map undo-fu-mode-map "C-?" #'undo-fu-only-redo))
 
-(map! "M-g g" #'avy-goto-line)
-(map! "M-g M-g" #'avy-goto-line)
-
-(map! "M-g o" #'counsel-outline)
-
-(setq org-directory "~/org/")
+(setq org-directory "~/GSync/org/")
 
 (after! org (setq org-hide-emphasis-markers t))
 
@@ -162,28 +118,19 @@
   (setq org-special-ctrl-a/e t)
   (setq org-special-ctrl-k t))
 
-(after! org
-  (setq org-use-speed-commands
-        (lambda ()
-          (and (looking-at org-outline-regexp)
-               (looking-back "^\**")))))
-
-(add-hook! org-mode (electric-indent-local-mode -1))
-
 (defun zz/adjust-org-company-backends ()
   (remove-hook 'after-change-major-mode-hook '+company-init-backends-h)
   (setq-local company-backends nil))
 (add-hook! org-mode (zz/adjust-org-company-backends))
 
 (add-hook! org-mode :append
-           #'visual-line-mode
            #'variable-pitch-mode)
 
 (add-hook! org-mode :append #'org-appear-mode)
 
 (after! org
   (setq org-agenda-files
-        '("~/gtd" "~/Work/work.org.gpg" "~/org/")))
+        '("~/GSync/gtd" "~/GSync/Work/work.org.gpg" org-directory)))
 
 (defun zz/add-file-keybinding (key file &optional desc)
   (let ((key key)
@@ -193,13 +140,10 @@
           key
           (lambda () (interactive) (find-file file)))))
 
-(zz/add-file-keybinding "C-c z w" "~/Work/work.org.gpg" "work.org")
-(zz/add-file-keybinding "C-c z i" "~/org/ideas.org" "ideas.org")
-(zz/add-file-keybinding "C-c z p" "~/org/projects.org" "projects.org")
-(zz/add-file-keybinding "C-c z d" "~/org/diary.org" "diary.org")
-
-(setq org-roam-directory org-directory)
-(setq +org-roam-open-buffer-on-find-file nil)
+(zz/add-file-keybinding "C-c z w" "~/GSync/Work/work.org.gpg" "work.org")
+(zz/add-file-keybinding "C-c z i" (concat org-directory "ideas.org") "ideas.org")
+(zz/add-file-keybinding "C-c z p" (concat org-directory "projects.org") "projects.org")
+(zz/add-file-keybinding "C-c z d" (concat org-directory "diary.org") "diary.org")
 
 (defun zz/org-download-paste-clipboard (&optional use-default-filename)
   (interactive "P")
@@ -329,7 +273,7 @@ title."
   :after org
   :config
   ;; where org-gtd will put its files. This value is also the default one.
-  (setq org-gtd-directory "~/gtd/")
+  (setq org-gtd-directory "~/GSync/gtd/")
   ;; package: https://github.com/Malabarba/org-agenda-property
   ;; this is so you can see who an item was delegated to in the agenda
   (setq org-agenda-property-list '("DELEGATED_TO"))
@@ -380,15 +324,6 @@ title."
   :after org)
 (use-package! ox-moderncv
   :after org)
-
-(use-package! ox-leanpub
-  :after org
-  :config
-  (require 'ox-leanpub-markdown)
-  (org-leanpub-book-setup-menu-markdown))
-
-(after! ox-hugo
-  (setq org-hugo-use-code-for-kbd t))
 
 (defun zz/org-if-str (str &optional desc)
   (when (org-string-nw-p str)
@@ -503,9 +438,6 @@ end repeat\"")))
 
 (make-directory "~/.org-jira" 'ignore-if-exists)
 (setq jiralib-url "https://jira.swisscom.com/")
-
-(use-package! org-ml
-  :after org)
 
 (use-package! org-auto-tangle
   :defer t
