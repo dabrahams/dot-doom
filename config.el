@@ -97,9 +97,112 @@
 (modify-frame-parameters
   nil (list (cons 'tool-bar-lines 0)))
 
-(map! "C-RET"   #'other-buffer
-      "C-<" #'backward-word
-      "C-." #'forward-word)
+(when window-system (map! "C-z" nil))
+
+(map! "C-\\" nil) ;; toggle-input-method
+
+(map! :map override
+      "<C-return>"  #'other-window
+      "C-," #'backward-word
+      "C-." #'forward-word
+      ;; Defaults go to the beginning/end of line
+      [home] #'beginning-of-buffer
+      [end] #'end-of-buffer
+      )
+
+(defun dwa/match-paren (arg)
+  (interactive "P")
+  (if arg
+      () ;;(insert "%")  ; insert the character we're bound to
+    (cond ((looking-at "[[({<]")
+           (forward-sexp 1)
+           (forward-char -1))
+          ((looking-at "[]})>]")
+           (forward-char 1)
+           (forward-sexp -1))
+          (t
+           ;; (insert "%")  ; insert the character we're bound to
+      ))))
+
+(map! :map override "C-(" #'dwa/match-paren)
+
+(defun dwa/other-buffer ()
+  "Switch to the most recently visited buffer without asking"
+  (interactive)
+  (switch-to-buffer nil))
+
+(map! :map override "C-x C-b" #'dwa/other-buffer)
+
+(defun dwa/kill-current-buffer ()
+  "Kill the current buffer without asking, unless it's modified file, in which case ask first"
+  (interactive)
+  (kill-buffer (current-buffer)))
+
+(map! :map override "C-x C-k" 'dwa/kill-current-buffer)
+
+(map! :map override
+      "C-h M" 'man
+      :prefix "C-h e"
+      "a" #'dwa/anything-apropos
+      "e" #'view-echo-area-messages
+      "f" #'find-function
+      "d" #'my-describe-symbol
+      "i" #'info-apropos
+      "k" #'find-function-on-key
+      "l" #'find-library
+      "o" #'customize-option
+      "g" #'customize-group
+      "s" #'scratch
+      "v" #'find-variable)
+
+;; Used by dwa/compile and dwa/recompile to get back to the bottom of a
+;; compilation buffer after save-excursion brings us back to the place we
+;; started.
+(defun dwa/end-of-current-compilation-buffer()
+  (if (equal (buffer-name) "*compilation*")
+      (goto-char (point-max))))
+
+(defun dwa/compile(&optional command)
+  (interactive)
+  (if (interactive-p)
+      (call-interactively 'compile)
+    (compile command))
+  (save-excursion
+    (pop-to-buffer "*compilation*")
+    (goto-char (point-max)))
+  ;; force scrolling despite save-excursion
+  (dwa/end-of-current-compilation-buffer))
+
+(defun dwa/buffer-exists (buffer)
+  "Return t if the buffer exists.
+buffer is either a buffer object or a buffer name"
+  (bufferp (get-buffer buffer)))
+
+(defun dwa/recompile ()
+  "Run recompilation but put the point at the *end* of the buffer
+so we can watch errors as they come up"
+  (interactive)
+  (if (and (dwa/buffer-exists "*compilation*")
+           compile-command)
+      (save-excursion
+        ;; switching to the compilation buffer here causes the compile command to be
+        ;; executed from the same directory it originated from.
+        (pop-to-buffer "*compilation*")
+        (recompile)
+        (pop-to-buffer "*compilation*")
+        (goto-char (point-max)))
+    ;; else
+    (call-interactively #'dwa/compile))
+  ;; force scrolling despite save-excursion
+  (dwa/end-of-current-compilation-buffer))
+
+(map! :map override
+      [f7] #'dwa/recompile
+      [C-f7] #'dwa/compile
+      [f4] #'next-error
+      [C-S-f4] #'next-error
+      [S-f4] #'previous-error
+      [C-f4] #'first-error)
 
 (after! undo-fu
   (map! :map undo-fu-mode-map "C-?" #'undo-fu-only-redo))
@@ -108,7 +211,7 @@
 
 (after! org (setq org-hide-emphasis-markers t))
 
-(after! org (setq org-insert-heading-respect-content t))
+(after! org (setq org-insert-heading-respect-content nil))
 
 (after! org
   (setq org-log-done t)
@@ -444,6 +547,18 @@ end repeat\"")))
   :hook (org-mode . org-auto-tangle-mode)
   :config
   (setq org-auto-tangle-default t))
+
+(defun endless/sharp ()
+  "Insert #' unless in a string or comment."
+  (interactive)
+  (call-interactively #'self-insert-command)
+  (let ((ppss (syntax-ppss)))
+    (unless (or (elt ppss 3)
+                (elt ppss 4)
+                (eq (char-after) ?'))
+      (insert "'"))))
+
+(define-key emacs-lisp-mode-map "#" #'endless/sharp)
 
 (defun zz/sp-enclose-next-sexp (num)
   (interactive "p")

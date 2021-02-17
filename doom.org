@@ -414,7 +414,8 @@ Disable exit confirmation.
 
 I made a super simple set of Doom-Emacs custom splash screens by combining [[http://www.thedreamcastjunkyard.co.uk/2018/03/cross-platform-online-multiplayer-added.html][a Doom logo]] with the word "Emacs" rendered in the [[https://fontmeme.com/doom-font/][Doom Font]]. You can see them at https://gitlab.com/zzamboni/dot-doom/-/tree/master/splash (you can also see one of them at the top of this file). I configure it to be used instead of the default splash screen. It took me all of 5 minutes to make, so improvements are welcome!
 
-If you want to choose at random among a few different splash images, you can list them in =alternatives=.
+If you want to choose at random among a few different splash images, you can
+list them in =alternatives=.
 
 #+begin_src emacs-lisp
 (let ((alternatives '("doom-emacs-bw-light.svg")))
@@ -432,7 +433,8 @@ Set base and variable-pitch fonts.
       doom-variable-pitch-font (font-spec :family "Euphemia UCAS" :size 15))
 #+end_src
 
-Allow mixed fonts in a buffer. This is particularly useful for Org mode, so I can mix source and prose blocks in the same document.
+Allow mixed fonts in a buffer. This is particularly useful for Org mode, so I
+can mix source and prose blocks in the same document.
 
 #+begin_src emacs-lisp
 (add-hook! 'org-mode-hook #'mixed-pitch-mode)
@@ -479,22 +481,150 @@ Truncate lines in =ivy= childframes. [[https://discord.com/channels/406534637242
             value)))
 #+end_src
 ** Key bindings
-
-Doom Emacs has an extensive keybinding system, and most module functions are
-already bound. I modify some keybindings for simplicity of to match the muscle
-memory I have from my previous Emacs configuration.
-
-*Note:* I do not use VI-style keybindings (which are the default for Doom)
-because I have decades of muscle memory with Emacs-style keybindings. You may
-need to adjust these if you want to use them.
-
-*** Dave's essential  bindings
+*** Disable some built-in annoyances.
+C-z is okay when we're running in a terminal, but minimizing the graphical frame I'm running in is just a pain.
 #+begin_src emacs-lisp
-(map! "C-RET"   #'other-buffer
-      "C-<" #'backward-word
-      "C-." #'forward-word)
+(when window-system (map! "C-z" nil))
 #+end_src
 
+#+begin_src emacs-lisp
+(map! "C-\\" nil) ;; toggle-input-method
+#+end_src
+
+*** Dave's essential  bindings
+
+**** Basics
+#+begin_src emacs-lisp
+(map! :map override
+      "<C-return>"  #'other-window
+      "C-," #'backward-word
+      "C-." #'forward-word
+      ;; Defaults go to the beginning/end of line
+      [home] #'beginning-of-buffer
+      [end] #'end-of-buffer
+      )
+#+end_src
+
+**** Parenthesis matching:
+#+begin_src emacs-lisp
+(defun dwa/match-paren (arg)
+  (interactive "P")
+  (if arg
+      () ;;(insert "%")  ; insert the character we're bound to
+    (cond ((looking-at "[[({<]")
+           (forward-sexp 1)
+           (forward-char -1))
+          ((looking-at "[]})>]")
+           (forward-char 1)
+           (forward-sexp -1))
+          (t
+           ;; (insert "%")  ; insert the character we're bound to
+      ))))
+
+(map! :map override "C-(" #'dwa/match-paren)
+#+end_src
+
+**** Buffers
+
+~C-x C-b~ is normally set to bring up a buffer list, but there are many other ways
+to invoke this seldom-desired command (e.g. C-mouse1, or look at the "Buffers"
+menu at the top of the frame).
+
+#+begin_src emacs-lisp
+(defun dwa/other-buffer ()
+  "Switch to the most recently visited buffer without asking"
+  (interactive)
+  (switch-to-buffer nil))
+
+(map! :map override "C-x C-b" #'dwa/other-buffer)
+#+end_src
+
+~C-x C-k~ is normally brings up a list of buffers to kill. I just want to kill
+this one, now!
+
+#+BEGIN_SRC emacs-lisp
+(defun dwa/kill-current-buffer ()
+  "Kill the current buffer without asking, unless it's modified file, in which case ask first"
+  (interactive)
+  (kill-buffer (current-buffer)))
+
+(map! :map override "C-x C-k" 'dwa/kill-current-buffer)
+#+END_SRC
+
+**** Help
+#+BEGIN_SRC emacs-lisp
+(map! :map override
+      "C-h M" 'man
+      :prefix "C-h e"
+      "a" #'dwa/anything-apropos
+      "e" #'view-echo-area-messages
+      "f" #'find-function
+      "d" #'my-describe-symbol
+      "i" #'info-apropos
+      "k" #'find-function-on-key
+      "l" #'find-library
+      "o" #'customize-option
+      "g" #'customize-group
+      "s" #'scratch
+      "v" #'find-variable)
+#+END_SRC
+
+**** Compilation
+Attempt to do easy compilation with scrolling errors, and easy
+recompilation without worrying about what buffer you're in.
+
+TODO: Someone must have done this better than me; look into it.
+
+#+begin_src emacs-lisp
+;; Used by dwa/compile and dwa/recompile to get back to the bottom of a
+;; compilation buffer after save-excursion brings us back to the place we
+;; started.
+(defun dwa/end-of-current-compilation-buffer()
+  (if (equal (buffer-name) "*compilation*")
+      (goto-char (point-max))))
+
+(defun dwa/compile(&optional command)
+  (interactive)
+  (if (interactive-p)
+      (call-interactively 'compile)
+    (compile command))
+  (save-excursion
+    (pop-to-buffer "*compilation*")
+    (goto-char (point-max)))
+  ;; force scrolling despite save-excursion
+  (dwa/end-of-current-compilation-buffer))
+
+(defun dwa/buffer-exists (buffer)
+  "Return t if the buffer exists.
+buffer is either a buffer object or a buffer name"
+  (bufferp (get-buffer buffer)))
+
+(defun dwa/recompile ()
+  "Run recompilation but put the point at the *end* of the buffer
+so we can watch errors as they come up"
+  (interactive)
+  (if (and (dwa/buffer-exists "*compilation*")
+           compile-command)
+      (save-excursion
+        ;; switching to the compilation buffer here causes the compile command to be
+        ;; executed from the same directory it originated from.
+        (pop-to-buffer "*compilation*")
+        (recompile)
+        (pop-to-buffer "*compilation*")
+        (goto-char (point-max)))
+    ;; else
+    (call-interactively #'dwa/compile))
+  ;; force scrolling despite save-excursion
+  (dwa/end-of-current-compilation-buffer))
+
+(map! :map override
+      [f7] #'dwa/recompile
+      [C-f7] #'dwa/compile
+      [f4] #'next-error
+      [C-S-f4] #'next-error
+      [S-f4] #'previous-error
+      [C-f4] #'first-error)
+#+end_src
 
 *** Miscellaneous keybindings
 
@@ -525,10 +655,10 @@ Hide Org markup indicators.
 (after! org (setq org-hide-emphasis-markers t))
 #+end_src
 
-Insert Org headings after the current subtree
+Insert Org headings where I say
 
 #+begin_src emacs-lisp
-(after! org (setq org-insert-heading-respect-content t))
+(after! org (setq org-insert-heading-respect-content nil))
 #+end_src
 
 Enable logging of done tasks, and log stuff into the LOGBOOK drawer by default
@@ -1114,6 +1244,22 @@ Tangle-on-save has revolutionized my literate programming workflow. It automatic
   (setq org-auto-tangle-default t))
 #+end_src
 
+Get in the habit of using sharp quote ([[https://endlessparentheses.com/get-in-the-habit-of-using-sharp-quote.html][article]]):
+
+#+begin_src emacs-lisp
+(defun endless/sharp ()
+  "Insert #' unless in a string or comment."
+  (interactive)
+  (call-interactively #'self-insert-command)
+  (let ((ppss (syntax-ppss)))
+    (unless (or (elt ppss 3)
+                (elt ppss 4)
+                (eq (char-after) ?'))
+      (insert "'"))))
+
+(define-key emacs-lisp-mode-map "#" #'endless/sharp)
+#+end_src
+
 Some useful settings for LISP coding - =smartparens-strict-mode= to enforce
 parenthesis to match. I map =M-(= to enclose the next expression as in =paredit=
 using a custom function. Prefix argument can be used to indicate how many
@@ -1269,3 +1415,12 @@ channel."
             (org-remove-indentation
              (org-export-format-code-default example-block info)))))
 #+end_src
+* TODOs
+** Get a modified indicator into the mode line
+** Figure out how to dynamically rewrap paragraphs in Org files
+Ideally we want to set a width limit.
+** Figure out snippets for literate org.
+** Resolve M-\ delete-horizontal-space binding 1P conflict.
+** Figure out how to get ~`M-x o-b-tang'~ to complete to ~org-babel-tangle~
+** Figure out how to autofill with the symbol under point
+** Figure out how to get exactly matching ivy results to supercede other ones
