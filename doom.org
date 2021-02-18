@@ -431,12 +431,16 @@ Set base and variable-pitch fonts.
       doom-variable-pitch-font (font-spec :family "Euphemia UCAS" :size 15))
 #+end_src
 
-Allow mixed fonts in a buffer. This is particularly useful for Org mode, so I
-can mix source and prose blocks in the same document.
+Mixed-pitch support. Particularly useful for Org mode, where documents typically
+contain both prose and source code.
 
 #+begin_src emacs-lisp
-(add-hook! 'org-mode-hook #'mixed-pitch-mode)
 (setq mixed-pitch-variable-pitch-cursor nil)
+(defun dwa/no-mixed-pitch-fill-column-indicator ()
+  (when mixed-pitch-mode (display-fill-column-indicator-mode 0)))
+(add-hook! 'mixed-pitch-mode-hook
+           #'dwa/no-mixed-pitch-fill-column-indicator)
+(add-hook! 'org-mode-hook #'mixed-pitch-mode)
 #+end_src
 
 Visual theme
