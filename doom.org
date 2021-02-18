@@ -511,8 +511,13 @@ C-z is okay when we're running in a terminal, but minimizing the graphical frame
       "C-." #'forward-word
       ;; Defaults go to the beginning/end of line
       [home] #'beginning-of-buffer
-      [end] #'end-of-buffer
-      )
+      [end] #'end-of-buffer)
+#+end_src
+
+If we don't do this up front, it won't get bound until dired has been loaded.
+
+#+begin_src emacs-lisp
+(map! "C-x C-j" #'dired-jump)
 #+end_src
 
 **** Parenthesis matching:

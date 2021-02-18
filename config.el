@@ -115,8 +115,9 @@
       "C-." #'forward-word
       ;; Defaults go to the beginning/end of line
       [home] #'beginning-of-buffer
-      [end] #'end-of-buffer
-      )
+      [end] #'end-of-buffer)
+
+(map! "C-x C-j" #'dired-jump)
 
 (defun dwa/match-paren (arg)
   (interactive "P")
