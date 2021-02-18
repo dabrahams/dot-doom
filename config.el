@@ -87,7 +87,7 @@
 (add-hook! 'org-mode-hook #'mixed-pitch-mode)
 (setq mixed-pitch-variable-pitch-cursor nil)
 
-(setq doom-theme 'doom-zenburn)
+(setq doom-theme 'doom-tomorrow-day)
 ;;(setq doom-theme 'doom-nord-light)
 ;;(setq doom-theme 'doom-solarized-light)
 

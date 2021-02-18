@@ -442,7 +442,7 @@ can mix source and prose blocks in the same document.
 Visual theme
 
 #+begin_src emacs-lisp
-(setq doom-theme 'doom-zenburn)
+(setq doom-theme 'doom-tomorrow-day)
 ;;(setq doom-theme 'doom-nord-light)
 ;;(setq doom-theme 'doom-solarized-light)
 #+end_src
