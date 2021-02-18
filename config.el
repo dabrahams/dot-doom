@@ -96,6 +96,7 @@
   (add-hook! 'org-mode-hook #'mixed-pitch-mode))
 
 (setq doom-theme 'doom-tomorrow-day)
+(setq doom-theme 'doom-one)
 ;;(setq doom-theme 'doom-nord-light)
 ;;(setq doom-theme 'doom-solarized-light)
 
