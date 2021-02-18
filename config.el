@@ -84,12 +84,16 @@
       ;;doom-variable-pitch-font (font-spec :family "ETBembo" :size 18)
       doom-variable-pitch-font (font-spec :family "Euphemia UCAS" :size 15))
 
-(setq mixed-pitch-variable-pitch-cursor nil)
 (defun dwa/no-mixed-pitch-fill-column-indicator ()
   (when mixed-pitch-mode (display-fill-column-indicator-mode 0)))
-(add-hook! 'mixed-pitch-mode-hook
-           #'dwa/no-mixed-pitch-fill-column-indicator)
-(add-hook! 'org-mode-hook #'mixed-pitch-mode)
+
+(after! mixed-pitch
+  (setq mixed-pitch-variable-pitch-cursor nil)
+  (add-hook! 'mixed-pitch-mode-hook
+             #'dwa/no-mixed-pitch-fill-column-indicator))
+
+(after! org
+  (add-hook! 'org-mode-hook #'mixed-pitch-mode))
 
 (setq doom-theme 'doom-tomorrow-day)
 ;;(setq doom-theme 'doom-nord-light)

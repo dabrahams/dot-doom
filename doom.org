@@ -435,12 +435,16 @@ Mixed-pitch support. Particularly useful for Org mode, where documents typically
 contain both prose and source code.
 
 #+begin_src emacs-lisp
-(setq mixed-pitch-variable-pitch-cursor nil)
 (defun dwa/no-mixed-pitch-fill-column-indicator ()
   (when mixed-pitch-mode (display-fill-column-indicator-mode 0)))
-(add-hook! 'mixed-pitch-mode-hook
-           #'dwa/no-mixed-pitch-fill-column-indicator)
-(add-hook! 'org-mode-hook #'mixed-pitch-mode)
+
+(after! mixed-pitch
+  (setq mixed-pitch-variable-pitch-cursor nil)
+  (add-hook! 'mixed-pitch-mode-hook
+             #'dwa/no-mixed-pitch-fill-column-indicator))
+
+(after! org
+  (add-hook! 'org-mode-hook #'mixed-pitch-mode))
 #+end_src
 
 Visual theme
