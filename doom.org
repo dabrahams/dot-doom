@@ -412,8 +412,6 @@ Disable exit confirmation.
 
 ** Visual, session and window settings
 
-I made a super simple set of Doom-Emacs custom splash screens by combining [[http://www.thedreamcastjunkyard.co.uk/2018/03/cross-platform-online-multiplayer-added.html][a Doom logo]] with the word "Emacs" rendered in the [[https://fontmeme.com/doom-font/][Doom Font]]. You can see them at https://gitlab.com/zzamboni/dot-doom/-/tree/master/splash (you can also see one of them at the top of this file). I configure it to be used instead of the default splash screen. It took me all of 5 minutes to make, so improvements are welcome!
-
 If you want to choose at random among a few different splash images, you can
 list them in =alternatives=.
 
@@ -664,6 +662,8 @@ selected text should be replaced.
 #+end_src
 
 * Org mode
+
+This came almost entirely from Diego Zamboni.
 
 ** General Org Configuration
 
