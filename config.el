@@ -555,6 +555,13 @@ end repeat\"")))
 (make-directory "~/.org-jira" 'ignore-if-exists)
 (setq jiralib-url "https://jira.swisscom.com/")
 
+(after! prog-mode
+  (map! :map prog-mode-map "C-h C-f" #'find-function-at-point)
+  (map! :map prog-mode-map
+        :localleader
+        :desc "Find function at point"
+        "g p" #'find-function-at-point))
+
 (use-package! org-auto-tangle
   :defer t
   :hook (org-mode . org-auto-tangle-mode)
@@ -587,13 +594,6 @@ end repeat\"")))
   (add-hook! smartparens-mode :append #'sp-use-paredit-bindings)
   (map! :map (smartparens-mode-map smartparens-strict-mode-map)
         "M-(" #'zz/sp-enclose-next-sexp))
-
-(after! prog-mode
-  (map! :map prog-mode-map "C-h C-f" #'find-function-at-point)
-  (map! :map prog-mode-map
-        :localleader
-        :desc "Find function at point"
-        "g p" #'find-function-at-point))
 
 (use-package! graphviz-dot-mode)
 
