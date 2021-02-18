@@ -655,6 +655,14 @@ for redo.
   (map! :map undo-fu-mode-map "C-?" #'undo-fu-only-redo))
 #+end_src
 
+** Other crucial ergonomic settings
+
+Be like every other editor: when text is selected and I start typing, the
+selected text should be replaced.
+#+begin_src emacs-lisp
+(delete-selection-mode t)
+#+end_src
+
 * Org mode
 
 ** General Org Configuration

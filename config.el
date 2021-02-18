@@ -214,6 +214,8 @@ so we can watch errors as they come up"
 (after! undo-fu
   (map! :map undo-fu-mode-map "C-?" #'undo-fu-only-redo))
 
+(delete-selection-mode t)
+
 (setq org-directory "~/GSync/org/")
 
 (after! org (setq org-hide-emphasis-markers t))
