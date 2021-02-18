@@ -8,7 +8,7 @@
 ;; Disable the narrow-to-region binding; it's too easy to do by mistake
 (bind-key* "C-x n n" nil)
 
-(when (require 'sticky-windows nil :noerror)
+(when (require 'sticky-windows nil :noerror)nnn
   (bind-key* "C-x 0" 'sticky-window-delete-window)
   (bind-key* "C-x 1" 'sticky-window-delete-other-windows)
   (bind-key* "C-x 9" 'sticky-window-keep-window-visible))
@@ -23,9 +23,6 @@
 (prefer-coding-system 'utf-8)
 
 ;; auto modes
-
-(add-to-list 'auto-mode-alist
-             '("\\.mm\\'" . objc-mode))
 
 (defun request-feature (feature)
   (or (require feature nil 'noerror)
