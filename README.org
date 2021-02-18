@@ -1,13 +1,13 @@
 #+title:   My Doom Emacs configuration
-#+author: Diego Zamboni
-#+author: diego@zzamboni.org
+#+author: Dave Abrahams
+#+author: dave@boostpro.com
 
 [[file:splash/doom-emacs-color.png]]
 
-See [[file:doom.org][doom.org]] for the source configuration file with full commentary. From this file, three configuration files are generated: [[file:init.el][init.el]], [[file:packages.el][packages.el]] and [[file:config.el][config.el]]. These are the files read by Doom Emacs.
+See [[file:doom.org][doom.org]] for the source configuration file with full commentary. From this
+file, three configuration files are generated: [[file:init.el][init.el]], [[file:packages.el][packages.el]] and
+[[file:config.el][config.el]]. These are the files read by Doom Emacs.
 
-I also made a super simple set of Doom-Emacs custom splash screens, which you can find them in the [[https://gitlab.com/zzamboni/dot-doom/-/tree/master/splash][splash/]] directory.
-
-If you are interested in the topic of literate configuration, you should check out my free book [[https://leanpub.com/lit-config][Literate Configuration]]!
-
-If you have any questions or feedback, feel free to open an issue at https://gitlab.com/zzamboni/dot-emacs/-/issues.
+The contents of this repository owes a great deal to the work of Diego Zamboni
+<diego@zzamboni.org>, the author of [[https://leanpub.com/lit-config][Literate Configuration]]. I basically mashed
+together [[https://gitlab.com/zzamboni/dot-doom][his config]] and my [[https://github.com/dabrahams/DotEmacs][previous config]].
